@@ -34,6 +34,7 @@ namespace WebApi.Services.Autor
                 var autores =  await _context.Autores.ToListAsync();
                 resposta.Dados = autores;
                 resposta.Mensagem = "Autores listados com sucesso";
+                resposta.Status = true;
                 return resposta;
             }
             catch(Exception ex)
