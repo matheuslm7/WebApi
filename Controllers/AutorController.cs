@@ -28,6 +28,13 @@ namespace WebApi.Controllers
             return Ok(autores);
         }
 
+        [HttpGet("ObterAutorPorId/{idAutor}")]
+        public async Task<ActionResult<ResponseModel<AutorModel>>> ObterAutorPorId(int idAutor)
+        {
+            var autor = await _autorService.ObterAutorPorId(idAutor);
+            return Ok(autor);
+        }
+
 
 
 

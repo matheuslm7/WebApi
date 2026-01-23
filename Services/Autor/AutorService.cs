@@ -18,9 +18,29 @@ namespace WebApi.Services.Autor
         }
 
 
-        public Task<ResponseModel<AutorModel>> ObterAutorPorId(int idAutor)
+        public async Task<ResponseModel<AutorModel>> ObterAutorPorId(int idAutor)
         {
-            throw new NotImplementedException();
+            ResponseModel<AutorModel> resposta = new ResponseModel<AutorModel>();
+            try
+            {
+                var autor = await _context.Autores.FirstOrDefaultAsync(autorbanco => autorbanco.Id == idAutor);
+                
+                if(autor == null)
+                {
+                    resposta.Mensagem = "Autor não encontrado";
+                    return resposta;
+                }
+                resposta.Dados = autor;
+                resposta.Mensagem = "Autor listado com sucesso";
+                resposta.Status = true;
+                return resposta;
+            }
+            catch(Exception ex)
+            {
+                resposta.Mensagem = ex.Message;
+                resposta.Status = false;
+                return resposta;
+            }
         }
         public Task<ResponseModel<AutorModel>> ObterAutoPorIdLivro(int idLivro)
         {
