@@ -42,10 +42,34 @@ namespace WebApi.Services.Autor
                 return resposta;
             }
         }
-        public Task<ResponseModel<AutorModel>> ObterAutoPorIdLivro(int idLivro)
+        public async Task<ResponseModel<AutorModel>> ObterAutorPorIdLivro(int idLivro)
         {
-            throw new NotImplementedException();
+            ResponseModel<AutorModel> resposta = new ResponseModel<AutorModel>();
+            try
+            {
+                var livro = await _context.Livros
+                .Include(a => a.Autor)
+                .FirstOrDefaultAsync(livroBanco => livroBanco.Id == idLivro);
+
+                if(livro == null)
+                {
+                    resposta.Mensagem = "Livro não encontrado";
+                    resposta.Status = false;
+                    return resposta;
+                }
+                resposta.Dados = livro.Autor;
+                resposta.Mensagem = "Autor listado com sucesso";
+                resposta.Status = true;
+                return resposta;
+            }
+            catch(Exception ex)
+            {
+                resposta.Mensagem = ex.Message;
+                resposta.Status = false;
+                return resposta;
+            }
         }
+
         public async Task<ResponseModel<List<AutorModel>>> ListarAutores()
         {
             ResponseModel<List<AutorModel>> resposta = new ResponseModel<List<AutorModel>>();

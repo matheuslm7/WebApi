@@ -35,6 +35,13 @@ namespace WebApi.Controllers
             return Ok(autor);
         }
 
+        [HttpGet("ObterAutorPorIdLivro/{idLivro}")]
+        public async Task<ActionResult<ResponseModel<AutorModel>>> ObterAutorPorIdLivro(int idLivro)
+        {
+            var autor = await _autorService.ObterAutorPorIdLivro(idLivro);
+            return Ok(autor);
+        }
+
 
 
 

@@ -10,6 +10,6 @@ namespace WebApi.Services.Autor
     {
         Task<ResponseModel<List<AutorModel>>> ListarAutores();
         Task<ResponseModel<AutorModel>> ObterAutorPorId(int idAutor);
-        Task<ResponseModel<AutorModel>> ObterAutoPorIdLivro(int idLivro);
+        Task<ResponseModel<AutorModel>> ObterAutorPorIdLivro(int idLivro);
     }
 }
