@@ -11,7 +11,7 @@ namespace WebApi.Services.Livro
     {
         Task<ResponseModel<List<LivroModel>>> ListarLivros();
         Task<ResponseModel<LivroModel>> ObterLivroPorId(int idLivro);
-        Task<ResponseModel<LivroModel>> ObterLivroPorIdAutor(int idAutor);
+        Task<ResponseModel<List<LivroModel>>> ObterLivroPorIdAutor(int idAutor);
         Task<ResponseModel<List<LivroModel>>> CriarLivro(LivroCriacaoDTO livroCriacaoDTO);
 
         Task<ResponseModel<LivroModel>> DeletarLivro(int idLivro);
