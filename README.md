@@ -1,68 +1,184 @@
 # WebApi - Gerenciamento de Autores e Livros
 
-Esta é uma API simples em desenvolvimento em **.NET 8** para gerenciar o relacionamento entre autores e seus livros. O projeto foi estruturado para demonstrar o uso de boas práticas, separação de responsabilidades (Service Pattern) e integração com banco de dados usando Entity Framework Core.
+Esta é uma API RESTful desenvolvida em **.NET 8** para gerenciar o relacionamento entre autores e seus livros. O projeto demonstra boas práticas de desenvolvimento, como separação de responsabilidades (Service Pattern), injeção de dependência, e integração com banco de dados usando Entity Framework Core. Ideal para portfólio, mostrando habilidades em desenvolvimento backend com C#.
 
 ## 🚀 Tecnologias Utilizadas
 
 - **C# / .NET 8**
-- **Entity Framework Core**: Para comunicação com o
-- **Docker + Azure Data Studio**: Para containerização e gerenciamento do banco de dados.
-- **Swagger**: Para documentação e testes rápidos dos endpoints.
+- **Entity Framework Core**: ORM para comunicação com o banco de dados
+- **SQL Server**: Banco de dados relacional
+- **Docker + Docker Compose**: Containerização e orquestração
+- **Swagger/OpenAPI**: Documentação interativa da API
+- **AutoMapper** (se aplicável): Mapeamento de DTOs
 
 ## 📌 Funcionalidades
 
-A API permite realizar operações relacionadas aos autores, como:
+A API permite realizar operações CRUD completas para autores e livros:
 
-- Listar todos os autores cadastrados.
-- Buscar um autor específico pelo seu ID.
-- Buscar o autor associado a um determinado livro.
+### Autores
 
-## 🛠️ Como configurar o projeto
+- Listar todos os autores cadastrados
+- Buscar um autor específico pelo seu ID
+- Buscar o autor associado a um determinado livro
+- Criar um novo autor
+- Atualizar informações de um autor
+- Deletar um autor
 
-1. **Clonar o repositório:**
+### Livros
+
+- Listar todos os livros cadastrados (com informações do autor)
+- Buscar um livro específico pelo seu ID
+- Buscar livros de um autor específico
+- Criar um novo livro (associado a um autor existente)
+- Atualizar informações de um livro
+- Deletar um livro
+
+## 🛠️ Pré-requisitos
+
+Antes de começar, certifique-se de ter instalado:
+
+- [.NET 8 SDK](https://dotnet.microsoft.com/download/dotnet/8.0)
+- [SQL Server](https://www.microsoft.com/en-us/sql-server/sql-server-downloads) ou Docker
+- [Git](https://git-scm.com/)
+
+## 📂 Estrutura do Projeto
+
+```
+WebApi/
+├── Controllers/          # Endpoints da API
+├── Models/              # Entidades do domínio
+├── DTO/                 # Objetos de Transferência de Dados
+├── Services/            # Lógica de negócio
+├── Data/                # Contexto do Entity Framework
+├── Migrations/          # Histórico de migrações do BD
+├── Properties/          # Configurações do projeto
+└── appsettings.json     # Configurações da aplicação
+```
+
+## 📡 Padrão de Resposta
+
+Todas as requisições retornam um objeto padronizado para facilitar o consumo:
+
+```json
+{
+  "dados": { ... },
+  "mensagem": "Texto informativo sobre o resultado",
+  "status": true
+}
+```
+
+## 🚀 Passo a Passo para Começar o Projeto
+
+### Opção 1: Sem Docker (Desenvolvimento Local)
+
+1. **Clone o repositório:**
 
    ```bash
    git clone <url-do-repositorio>
+   cd WebApi
    ```
 
-2. **Configurar o Banco de Dados:**
-   No arquivo `appsettings.json`, ajuste a `DefaultConnection` para apontar para o seu servidor SQL Server:
+2. **Restaure as dependências:**
 
-   ```json
-   "ConnectionStrings": {
-     "DefaultConnection": "Server=SEU_SERVIDOR;Database=NomeDoBanco;Trusted_Connection=True;TrustServerCertificate=True;"
-   }
+   ```bash
+   dotnet restore
    ```
 
-3. **Executar as Migrations:**
-   Abra o terminal na pasta do projeto e execute:
+3. **Configure o banco de dados:**
+   - Instale e configure o SQL Server localmente
+   - No arquivo `appsettings.json`, ajuste a string de conexão:
+     ```json
+     "ConnectionStrings": {
+       "DefaultConnection": "Server=localhost;Database=WebApiDb;Trusted_Connection=True;TrustServerCertificate=True;"
+     }
+     ```
+
+4. **Execute as migrações:**
 
    ```bash
    dotnet ef database update
    ```
 
-4. **Rodar a aplicação:**
+5. **Execute a aplicação:**
+
    ```bash
    dotnet run
    ```
-   Acesse `http://localhost:XXXX/swagger` para visualizar a documentação interativa.
 
-## 📂 Estrutura do Projeto
+6. **Acesse a documentação:**
+   - Abra o navegador em `https://localhost:XXXX/swagger` (porta definida no launchSettings.json)
 
-- **Controllers**: Portas de entrada da API.
-- **Models**: Definição das entidades e de um modelo de resposta genérico.
-- **Services**: Lógica de negócio e comunicação com o banco de dados.
-- **Data**: Configuração do Contexto do Entity Framework (AppDbContext).
-- **Migrations**: Histórico de alterações do banco de dados.
+### Opção 2: Com Docker (Ambiente Containerizado)
 
-## 📡 Padrão de Resposta
+1. **Clone o repositório:**
 
-Todas as requisições retornam um objeto padronizado para facilitar o consumo pelo front-end:
+   ```bash
+   git clone <url-do-repositorio>
+   cd WebApi
+   ```
 
-```json
+2. **Certifique-se de que o Docker está rodando:**
+
+   ```bash
+   docker --version
+   docker-compose --version
+   ```
+
+3. **Execute com Docker Compose:**
+
+   ```bash
+   docker-compose up --build
+   ```
+
+4. **Acesse a aplicação:**
+   - API: `http://localhost:8080`
+   - Swagger: `http://localhost:8080/swagger`
+   - Banco de dados: SQL Server rodando em container na porta 1433
+
+## 🧪 Testando a API
+
+Use o Swagger UI para testar os endpoints ou ferramentas como Postman/Insomnia:
+
+### Exemplos de Requisições
+
+**Criar Autor:**
+
+```http
+POST /api/autor/CriarAutor
+Content-Type: application/json
+
 {
-  "dados": { ... },
-  "mensagem": "Texto informativo",
-  "status": true
+  "nome": "João",
+  "sobrenome": "Silva"
 }
 ```
+
+**Criar Livro:**
+
+```http
+POST /api/livro/CriarLivro
+Content-Type: application/json
+
+{
+  "titulo": "Meu Primeiro Livro",
+  "autorId": 1
+}
+```
+
+**Listar Livros:**
+
+```http
+GET /api/livro/ListarLivros
+```
+
+## 🤝 Contribuição
+
+Contribuições são bem-vindas! Sinta-se à vontade para abrir issues ou pull requests.
+
+## 📄 Licença
+
+Este projeto está sob a licença MIT. Veja o arquivo LICENSE para mais detalhes.
+
+---
+
+**Desenvolvido por Matheus Lima** - Projeto para portfólio demonstrando habilidades em desenvolvimento de APIs RESTful com .NET.
