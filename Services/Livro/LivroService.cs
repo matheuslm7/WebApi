@@ -115,7 +115,7 @@ namespace WebApi.Services.Livro
             {
                 var livro = await _context.Livros.
                 Include(a => a.Autor)
-                .FirstOrDefaultAsync(livroBanco => livroBanco.Id == livroAtualizarDTO.Id);
+                .FirstOrDefaultAsync(livroBanco => livroBanco.Id == idLivro);
 
                 var autor = await _context.Autores
                 .FirstOrDefaultAsync(a => a.Id == livroAtualizarDTO.AutorId);
