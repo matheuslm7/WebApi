@@ -1,0 +1,24 @@
+version: "3.8"
+
+services:
+  sqlserver:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    environment:
+      ACCEPT_EULA: Y
+      SA_PASSWORD: Admin@12345
+    ports:
+      - "1433:1433"
+    volumes:
+      - sqlserver_data:/var/opt/mssql
+
+  webapi:
+    build: .
+    depends_on:
+      - sqlserver
+    ports:
+      - "8080:80"
+    environment:
+      ConnectionStrings__DefaultConnection: "Server=sqlserver,1433;Database=MyDatabase;User Id=sa;Password=Admin@12345;TrustServerCertificate=True;Encrypt=True;"
+
+volumes:
+  sqlserver_data:
