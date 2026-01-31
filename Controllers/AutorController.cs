@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using WebApi.Models;
 using WebApi.Services.Autor;
+using WebApi.DTO.Autor;
 
 namespace WebApi.Controllers
 {
@@ -40,6 +41,13 @@ namespace WebApi.Controllers
         {
             var autor = await _autorService.ObterAutorPorIdLivro(idLivro);
             return Ok(autor);
+        }
+
+        [HttpPost("CriarAutor")]
+        public async Task<ActionResult<ResponseModel<List<AutorModel>>>> CriarAutor(AutorCriacaoDTO autorCriacaoDTO)
+        {
+            var autores = await _autorService.CriarAutor(autorCriacaoDTO);
+            return Ok(autores);
         }
 
 

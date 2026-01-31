@@ -13,6 +13,6 @@ namespace WebApi.Models
         public required string Sobrenome { get; set; }
 
         [JsonIgnore]
-        public ICollection<LivroModel> Livros { get; set; }
+        public ICollection<LivroModel>? Livros { get; set; }
     }
 }

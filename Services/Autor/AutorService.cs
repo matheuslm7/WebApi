@@ -6,6 +6,7 @@ using Azure;
 using Microsoft.EntityFrameworkCore;
 using WebApi.Data;
 using WebApi.DTO.Autor;
+using WebApi.Services.Autor;
 using WebApi.Models;
 
 namespace WebApi.Services.Autor
@@ -25,8 +26,8 @@ namespace WebApi.Services.Autor
             try
             {
                 var autor = await _context.Autores.FirstOrDefaultAsync(autorbanco => autorbanco.Id == idAutor);
-                
-                if(autor == null)
+
+                if (autor == null)
                 {
                     resposta.Mensagem = "Autor não encontrado";
                     return resposta;
@@ -36,7 +37,7 @@ namespace WebApi.Services.Autor
                 resposta.Status = true;
                 return resposta;
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 resposta.Mensagem = ex.Message;
                 resposta.Status = false;
@@ -52,7 +53,7 @@ namespace WebApi.Services.Autor
                 .Include(a => a.Autor)
                 .FirstOrDefaultAsync(livroBanco => livroBanco.Id == idLivro);
 
-                if(livro == null)
+                if (livro == null)
                 {
                     resposta.Mensagem = "Nenhum registro encontrado";
                     resposta.Status = false;
@@ -63,7 +64,7 @@ namespace WebApi.Services.Autor
                 resposta.Status = true;
                 return resposta;
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 resposta.Mensagem = ex.Message;
                 resposta.Status = false;
@@ -72,6 +73,7 @@ namespace WebApi.Services.Autor
         }
 
         public async Task<ResponseModel<List<AutorModel>>> CriarAutor(AutorCriacaoDTO autorCriacaoDTO)
+
         {
             ResponseModel<List<AutorModel>> resposta = new ResponseModel<List<AutorModel>>();
             try
@@ -90,7 +92,40 @@ namespace WebApi.Services.Autor
                 resposta.Status = true;
                 return resposta;
             }
-            catch(Exception ex)
+            catch (Exception ex)
+            {
+                resposta.Mensagem = ex.Message;
+                resposta.Status = false;
+                return resposta;
+            }
+        }
+
+        public async Task<ResponseModel<List<AutorModel>>> AtualizarAutor(int idAutor, AutorCriacaoDTO autorCriacaoDTO)
+        {
+            ResponseModel<List<AutorModel>> resposta = new ResponseModel<List<AutorModel>>();
+            try
+            {
+                var autor = await _context.Autores.FirstOrDefaultAsync(autorbanco => autorbanco.Id == idAutor);
+
+                if (autor == null)
+                {
+                    resposta.Mensagem = "Nenhum registro de autor localizado!";
+                    return resposta;
+                }
+
+                autor.Nome = autorCriacaoDTO.Nome;
+                autor.Sobrenome = autorCriacaoDTO.Sobrenome;
+
+                _context.Update(autor);
+                await _context.SaveChangesAsync();
+
+                resposta.Dados = await _context.Autores.ToListAsync();
+                resposta.Mensagem = "Autor alterado com sucesso!";
+                resposta.Status = true;
+                return resposta;
+
+            }
+            catch (Exception ex)
             {
                 resposta.Mensagem = ex.Message;
                 resposta.Status = false;
@@ -103,13 +138,13 @@ namespace WebApi.Services.Autor
             ResponseModel<List<AutorModel>> resposta = new ResponseModel<List<AutorModel>>();
             try
             {
-                var autores =  await _context.Autores.ToListAsync();
+                var autores = await _context.Autores.ToListAsync();
                 resposta.Dados = autores;
                 resposta.Mensagem = "Autores listados com sucesso";
                 resposta.Status = true;
                 return resposta;
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 resposta.Mensagem = ex.Message;
                 resposta.Status = false;

@@ -8,7 +8,7 @@ namespace WebApi.Models
     public class LivroModel
     {
         public int Id { get; set; }
-        public string Titulo { get; set; }
-        public AutorModel Autor { get; set; }
+        public required string Titulo { get; set; }
+        public required AutorModel Autor { get; set; }
     }
 }
