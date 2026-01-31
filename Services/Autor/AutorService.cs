@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Azure;
 using Microsoft.EntityFrameworkCore;
 using WebApi.Data;
+using WebApi.DTO.Autor;
 using WebApi.Models;
 
 namespace WebApi.Services.Autor
@@ -59,6 +60,33 @@ namespace WebApi.Services.Autor
                 }
                 resposta.Dados = livro.Autor;
                 resposta.Mensagem = "Autor listado com sucesso";
+                resposta.Status = true;
+                return resposta;
+            }
+            catch(Exception ex)
+            {
+                resposta.Mensagem = ex.Message;
+                resposta.Status = false;
+                return resposta;
+            }
+        }
+
+        public async Task<ResponseModel<List<AutorModel>>> CriarAutor(AutorCriacaoDTO autorCriacaoDTO)
+        {
+            ResponseModel<List<AutorModel>> resposta = new ResponseModel<List<AutorModel>>();
+            try
+            {
+                var autor = new AutorModel()
+                {
+                    Nome = autorCriacaoDTO.Nome,
+                    Sobrenome = autorCriacaoDTO.Sobrenome
+                };
+
+                _context.Add(autor);
+                await _context.SaveChangesAsync();
+
+                resposta.Dados = await _context.Autores.ToListAsync();
+                resposta.Mensagem = "Autor criado com sucesso";
                 resposta.Status = true;
                 return resposta;
             }

@@ -1,4 +1,4 @@
-namespace WebApi.DTO.Autor
+namespace WebApi.DTO.AutorCriacaoDTO
 {
     public class AutorCriacaoDTO
     {
