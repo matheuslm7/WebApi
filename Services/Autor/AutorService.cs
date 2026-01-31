@@ -53,7 +53,7 @@ namespace WebApi.Services.Autor
 
                 if(livro == null)
                 {
-                    resposta.Mensagem = "Livro não encontrado";
+                    resposta.Mensagem = "Nenhum registro encontrado";
                     resposta.Status = false;
                     return resposta;
                 }
