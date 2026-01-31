@@ -133,6 +133,36 @@ namespace WebApi.Services.Autor
             }
         }
 
+        public async Task<ResponseModel<AutorModel>> DeletarAutor(int idAutor)
+        {
+            ResponseModel<AutorModel> resposta = new ResponseModel<AutorModel>();
+            try
+            {
+                var autor = await _context.Autores.FirstOrDefaultAsync(autorbanco => autorbanco.Id == idAutor);
+
+                if (autor == null)
+                {
+                    resposta.Mensagem = "Nenhum registro de autor localizado!";
+                    return resposta;
+                }
+
+                _context.Remove(autor);
+                await _context.SaveChangesAsync();
+
+                resposta.Dados = autor;
+                resposta.Mensagem = "Autor deletado com sucesso!";
+                resposta.Status = true;
+                return resposta;
+
+            }
+            catch (Exception ex)
+            {
+                resposta.Mensagem = ex.Message;
+                resposta.Status = false;
+                return resposta;
+            }
+        }
+
         public async Task<ResponseModel<List<AutorModel>>> ListarAutores()
         {
             ResponseModel<List<AutorModel>> resposta = new ResponseModel<List<AutorModel>>();

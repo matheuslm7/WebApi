@@ -59,6 +59,14 @@ namespace WebApi.Controllers
             return Ok(autor);
         }
 
+        [HttpDelete("DeletarAutor/{idAutor}")]
+
+        public async Task<ActionResult<ResponseModel<AutorModel>>> DeletarAutor(int idAutor)
+        {
+            var autor = await _autorService.DeletarAutor(idAutor);
+            return Ok(autor);
+        }
+
 
 
 
