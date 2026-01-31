@@ -13,6 +13,6 @@ namespace WebApi.Services.Autor
         Task<ResponseModel<AutorModel>> ObterAutorPorId(int idAutor);
         Task<ResponseModel<AutorModel>> ObterAutorPorIdLivro(int idLivro);
         Task<ResponseModel<List<AutorModel>>> CriarAutor(AutorCriacaoDTO autorCriacaoDTO);
-        Task<ResponseModel<List<AutorModel>>> AtualizarAutor(int idAutor, AutorCriacaoDTO autorCriacaoDTO);
+        Task<ResponseModel<List<AutorModel>>> AtualizarAutor(int idAutor, AutorAtualizarDTO autorAtualizarDTO);
     }
 }

@@ -51,6 +51,15 @@ namespace WebApi.Controllers
         }
 
 
+        [HttpPut("AtualizarAutor/{idAutor}")]
+
+        public async Task<ActionResult<ResponseModel<AutorModel>>> AtualizarAutor(int idAutor, AutorAtualizarDTO autorAtualizarDTO)
+        {
+            var autor = await _autorService.AtualizarAutor(idAutor, autorAtualizarDTO);
+            return Ok(autor);
+        }
+
+
 
 
 

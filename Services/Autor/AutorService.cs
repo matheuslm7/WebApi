@@ -100,7 +100,7 @@ namespace WebApi.Services.Autor
             }
         }
 
-        public async Task<ResponseModel<List<AutorModel>>> AtualizarAutor(int idAutor, AutorCriacaoDTO autorCriacaoDTO)
+        public async Task<ResponseModel<List<AutorModel>>> AtualizarAutor(int idAutor, AutorAtualizarDTO autorAtualizarDTO)
         {
             ResponseModel<List<AutorModel>> resposta = new ResponseModel<List<AutorModel>>();
             try
@@ -113,8 +113,8 @@ namespace WebApi.Services.Autor
                     return resposta;
                 }
 
-                autor.Nome = autorCriacaoDTO.Nome;
-                autor.Sobrenome = autorCriacaoDTO.Sobrenome;
+                autor.Nome = autorAtualizarDTO.Nome;
+                autor.Sobrenome = autorAtualizarDTO.Sobrenome;
 
                 _context.Update(autor);
                 await _context.SaveChangesAsync();

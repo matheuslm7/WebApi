@@ -5,14 +5,14 @@ Esta é uma API simples em desenvolvimento em **.NET 8** para gerenciar o relaci
 ## 🚀 Tecnologias Utilizadas
 
 - **C# / .NET 8**
-- **Entity Framework Core**: Para comunicação com o banco de dados.
-- **SQL Server**: Banco de dados relacional.
-- **Docker + Azure Data Studio**: Para containerização e gerenciamento do banco de dados. (Usuário de Pop!_OS, não iria conseguir usar o SQL Server)
+- **Entity Framework Core**: Para comunicação com o
+- **Docker + Azure Data Studio**: Para containerização e gerenciamento do banco de dados.
 - **Swagger**: Para documentação e testes rápidos dos endpoints.
 
 ## 📌 Funcionalidades
 
 A API permite realizar operações relacionadas aos autores, como:
+
 - Listar todos os autores cadastrados.
 - Buscar um autor específico pelo seu ID.
 - Buscar o autor associado a um determinado livro.
@@ -20,12 +20,14 @@ A API permite realizar operações relacionadas aos autores, como:
 ## 🛠️ Como configurar o projeto
 
 1. **Clonar o repositório:**
+
    ```bash
    git clone <url-do-repositorio>
    ```
 
 2. **Configurar o Banco de Dados:**
    No arquivo `appsettings.json`, ajuste a `DefaultConnection` para apontar para o seu servidor SQL Server:
+
    ```json
    "ConnectionStrings": {
      "DefaultConnection": "Server=SEU_SERVIDOR;Database=NomeDoBanco;Trusted_Connection=True;TrustServerCertificate=True;"
@@ -34,6 +36,7 @@ A API permite realizar operações relacionadas aos autores, como:
 
 3. **Executar as Migrations:**
    Abra o terminal na pasta do projeto e execute:
+
    ```bash
    dotnet ef database update
    ```
